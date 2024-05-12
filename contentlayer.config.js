@@ -1,5 +1,6 @@
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import { title } from "process";
+import rehypePrettyCode from "rehype-pretty-code";
 
 /** @type {import('contentlayer/source-files').ComputedFields} */
 const computedFields = {
@@ -74,12 +75,20 @@ export const Post = defineDocumentType(() => ({
       of: { type: "string" },
       required: true,
     },
-
   },
   computedFields,
 }));
 
+/** @type {import('rehype-pretty-code').Options} */
+const options = {
+  // keepBackground: false,
+  // theme: moonlightTheme,
+};
+
 export default makeSource({
   contentDirPath: "./content",
-  documentTypes: [Post, Page , Author],
+  documentTypes: [Post, Page, Author],
+  mdx: {
+    rehypePlugins: [[rehypePrettyCode, options]],
+  },
 });
